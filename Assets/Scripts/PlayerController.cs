@@ -15,12 +15,6 @@ public class PlayerController : MonoBehaviour
     private float moveX;
     public bool isPaused = false;
 
-    public ParticleSystem footsteps;
-    private ParticleSystem.EmissionModule footEmissions;
-
-    public ParticleSystem ImpactEffect;
-    private bool wasOnGround;
-
     public GameObject projectile;
     public Transform firePoint;
 
@@ -30,7 +24,6 @@ public class PlayerController : MonoBehaviour
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        footEmissions = footsteps.emission;
     }
 
     private void Update()
@@ -61,16 +54,6 @@ public class PlayerController : MonoBehaviour
         {
             FlipSprite(moveX);
         }
-
-        if (!wasOnGround && isGrounded)
-        {
-            ImpactEffect.gameObject.SetActive(true);
-            ImpactEffect.Stop();
-            ImpactEffect.transform.position = new Vector2(footsteps.transform.position.x, footsteps.transform.position.y - 0.2f);
-            ImpactEffect.Play();
-        }
-
-        wasOnGround = isGrounded;
     }
 
     public void SetAnimations()
@@ -78,12 +61,10 @@ public class PlayerController : MonoBehaviour
         if (moveX != 0 && isGrounded)
         {
             playeranim.SetBool("run", true);
-            footEmissions.rateOverTime = 35f;
         }
         else
         {
             playeranim.SetBool("run", false);
-            footEmissions.rateOverTime = 0f;
         }
 
         playeranim.SetBool("isGrounded", isGrounded);
@@ -138,6 +119,4 @@ public class PlayerController : MonoBehaviour
         Vector3 scale = fireBall.transform.localScale;
         fireBall.transform.localScale = new Vector3(Mathf.Abs(scale.x) * direction, scale.y, scale.z);
     }
-
-
 }
