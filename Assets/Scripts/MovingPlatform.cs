@@ -19,7 +19,7 @@ public class MovingPlatform : MonoBehaviour
         transform.position = new Vector2(posInitial.x + x, posInitial.y + y);
         i += displacement * Time.deltaTime;
 
-        if (cont > 2 * Mathf.PI)
+        if (i > 2 * Mathf.PI)
         {
             i = 0;
         }
